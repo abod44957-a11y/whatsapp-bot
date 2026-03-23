@@ -27,19 +27,14 @@ client.on('ready', () => {
     console.log('✅ البوت شغال 24/7');
 });
 
-// حفظ الطلبات
 function saveOrder(data) {
     fs.appendFileSync('orders.txt', data + '\n----------------\n');
 }
 
 client.on('message', async msg => {
-
-    // تجاهل المجموعات
     if (msg.from.includes('@g.us')) return;
-
     const text = msg.body.toLowerCase();
 
-    // القائمة
     if (text.includes('مرحبا') || text.includes('السلام')) {
         msg.reply(`أهلاً وسهلاً 👋
 
@@ -52,59 +47,48 @@ client.on('message', async msg => {
 5️⃣ دعم 👨‍💻
 
 اكتب الرقم أو اسم الخدمة 👇`);
-    }
-
-    // برمجة
-    else if (text.includes('1') || text.includes('برمجة') || text.includes('تفليش')) {
+    } else if (text.includes('1') || text.includes('برمجة') || text.includes('تفليش')) {
         msg.reply(`📱 خدمات البرمجة:
 
 ✔️ تفليش  
 ✔️ إزالة FRP  
 ✔️ إصلاح النظام  
 
-✍️ اكتب:
-نوع الجهاز + المشكلة`);
-
+✍️ اكتب: نوع الجهاز + المشكلة`);
         saveOrder(`📱 برمجة\nالعميل: ${msg.from}\nالنص: ${msg.body}`);
-    }
-
-    // حوالات
-    else if (text.includes('2') || text.includes('حوالة') || text.includes('تحويل')) {
+    } else if (text.includes('2') || text.includes('حوالة') || text.includes('تحويل')) {
         msg.reply(`💸 استلام حوالات:
 
-أرسل:
+أرسل:  
 - الاسم  
 - المبلغ  
 - صورة الحوالة`);
-
         saveOrder(`💸 حوالة\nالعميل: ${msg.from}\nالنص: ${msg.body}`);
-    }
-
-    // شحن
-    else if (text.includes('3') || text.includes('شحن') || text.includes('رصيد')) {
+    } else if (text.includes('3') || text.includes('شحن') || text.includes('رصيد')) {
         msg.reply(`⚡ شحن رصيد:
 
 📶 جميع الشبكات
 
-أرسل:
+أرسل:  
 - الرقم  
 - المبلغ  
 - الشبكة`);
-
         saveOrder(`⚡ شحن\nالعميل: ${msg.from}\nالنص: ${msg.body}`);
-    }
-
-    // أسعار
-    else if (text.includes('4') || text.includes('سعر')) {
+    } else if (text.includes('4') || text.includes('سعر')) {
         msg.reply(`💰 الأسعار:
 
 📱 برمجة: حسب الجهاز  
 ⚡ شحن: عمولة بسيطة  
-💸 حوالات: حسب المبلغ  
+💸 حوالات: حسب المبلغ
 
 اكتب التفاصيل 👇`);
-    }
+    } else if (text.includes('5') || text.includes('دعم') || text.includes('موظف')) {
+        msg.reply(`👨‍💻 تم تحويلك للدعم...`);
+    } else {
+        msg.reply(`🤖 لم أفهم طلبك
 
-    // دعم
-    else if (text.includes('5') || text.includes('دعم') || text.includes('موظف')) {
-        msg
+اكتب "مرحبا" لعرض القائمة`);
+    }
+});
+
+client.initialize();
