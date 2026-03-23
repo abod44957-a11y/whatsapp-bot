@@ -1,93 +1,34 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
-const fs = require('fs');
 
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
+        // هذا السطر هو الحل لمشكلة Code 127
+        executablePath: '/usr/bin/google-chrome', 
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
             '--disable-dev-shm-usage',
-            '--disable-accelerated-2d-canvas',
-            '--no-first-run',
-            '--no-zygote',
-            '--single-process',
             '--disable-gpu'
         ]
     }
 });
 
 client.on('qr', qr => {
-    console.log('📷 امسح الكود من واتساب:');
+    console.log('📷 امسح الكود التالي الآن:');
     qrcode.generate(qr, { small: true });
 });
 
 client.on('ready', () => {
-    console.log('✅ البوت شغال 24/7');
+    console.log('✅ البوت شغال بنجاح 24/7!');
 });
 
-function saveOrder(data) {
-    fs.appendFileSync('orders.txt', data + '\n----------------\n');
-}
-
+// قائمة الردود التلقائية
 client.on('message', async msg => {
-    if (msg.from.includes('@g.us')) return;
     const text = msg.body.toLowerCase();
-
-    if (text.includes('مرحبا') || text.includes('السلام')) {
-        msg.reply(`أهلاً وسهلاً 👋
-
-📋 القائمة:
-
-1️⃣ برمجة جوالات 📱  
-2️⃣ حوالات 💸  
-3️⃣ شحن رصيد ⚡  
-4️⃣ الأسعار 💰  
-5️⃣ دعم 👨‍💻
-
-اكتب الرقم أو اسم الخدمة 👇`);
-    } else if (text.includes('1') || text.includes('برمجة') || text.includes('تفليش')) {
-        msg.reply(`📱 خدمات البرمجة:
-
-✔️ تفليش  
-✔️ إزالة FRP  
-✔️ إصلاح النظام  
-
-✍️ اكتب: نوع الجهاز + المشكلة`);
-        saveOrder(`📱 برمجة\nالعميل: ${msg.from}\nالنص: ${msg.body}`);
-    } else if (text.includes('2') || text.includes('حوالة') || text.includes('تحويل')) {
-        msg.reply(`💸 استلام حوالات:
-
-أرسل:  
-- الاسم  
-- المبلغ  
-- صورة الحوالة`);
-        saveOrder(`💸 حوالة\nالعميل: ${msg.from}\nالنص: ${msg.body}`);
-    } else if (text.includes('3') || text.includes('شحن') || text.includes('رصيد')) {
-        msg.reply(`⚡ شحن رصيد:
-
-📶 جميع الشبكات
-
-أرسل:  
-- الرقم  
-- المبلغ  
-- الشبكة`);
-        saveOrder(`⚡ شحن\nالعميل: ${msg.from}\nالنص: ${msg.body}`);
-    } else if (text.includes('4') || text.includes('سعر')) {
-        msg.reply(`💰 الأسعار:
-
-📱 برمجة: حسب الجهاز  
-⚡ شحن: عمولة بسيطة  
-💸 حوالات: حسب المبلغ
-
-اكتب التفاصيل 👇`);
-    } else if (text.includes('5') || text.includes('دعم') || text.includes('موظف')) {
-        msg.reply(`👨‍💻 تم تحويلك للدعم...`);
-    } else {
-        msg.reply(`🤖 لم أفهم طلبك
-
-اكتب "مرحبا" لعرض القائمة`);
+    if (text.includes('مرحبا')) {
+        msg.reply('أهلاً بك! كيف يمكنني مساعدتك اليوم؟');
     }
 });
 
