@@ -1,7 +1,7 @@
 {
-  "name": "whatsapp-bot",
+  "name": "whatsapp-business-bot",
   "version": "1.0.0",
-  "description": "WhatsApp Business Bot",
+  "description": "بوت واتساب لخدمات الجوال والحوالات والشحن - جاهز للتشغيل على Railway",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -9,10 +9,9 @@
   "dependencies": {
     "whatsapp-web.js": "^1.23.0",
     "qrcode-terminal": "^0.12.0",
-    "fs": "0.0.1-security",
-    "puppeteer": "^21.0.0"
+    "puppeteer": "^21.3.8"
   },
   "engines": {
-    "node": "20.x"
+    "node": "18.x"
   }
 }
