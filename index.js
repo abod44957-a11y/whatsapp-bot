@@ -3,7 +3,19 @@ const qrcode = require('qrcode-terminal');
 const fs = require('fs');
 
 const client = new Client({
-    authStrategy: new LocalAuth()
+    authStrategy: new LocalAuth(),
+    puppeteer: {
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-accelerated-2d-canvas',
+            '--no-first-run',
+            '--no-zygote',
+            '--single-process',
+            '--disable-gpu'
+        ]
+    }
 });
 
 client.on('qr', qr => {
@@ -95,15 +107,4 @@ client.on('message', async msg => {
 
     // دعم
     else if (text.includes('5') || text.includes('دعم') || text.includes('موظف')) {
-        msg.reply(`👨‍💻 تم تحويلك للدعم...`);
-    }
-
-    // أي رسالة ثانية
-    else {
-        msg.reply(`🤖 لم أفهم طلبك
-
-اكتب "مرحبا" لعرض القائمة`);
-    }
-});
-
-client.initialize();
+        msg
